@@ -15,15 +15,17 @@ namespace irem_proje.Controllers
     public class BasketController : ControllerBase
     {
         private readonly IBasketRepository _repository;
+        private static List<string> _ids = new List<string>();
+
         public BasketController(IBasketRepository repository)
         {
             _repository = repository;
         }
         // GET api/<BasketController>/5
         [HttpGet]
-        public string GetBasketIds()
+        public IActionResult GetBasketIds()
         {
-            return "value";
+            return Ok(_ids);
         }
 
         // GET api/<BasketController>/5
@@ -45,6 +47,7 @@ namespace irem_proje.Controllers
             List<Basket> baskets = new List<Basket>();
             baskets.Add(value);
             string id = Guid.NewGuid().ToString();
+            _ids.Add(id);
             bool result = _repository.SaveBasket(baskets, id);
             if (result)
             {
